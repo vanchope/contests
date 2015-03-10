@@ -389,41 +389,41 @@ public class TemplateByteBuf2 implements Runnable{
 			/**
 			 * This check returns boolean value, result of function.
 			 * It should be monotonic.
-			 * 
-			 * @return
 			 */
 			public BooleanChecker bc;
 			
 			
 			/**
-			 * Returns following element: <pre> 0 0 [1] 1 1</pre>
+			 * Returns the following 2 elements: <pre> 0 0 [0] [1] 1 1 </pre> <br/>
+			 * See a comment by "cerealguy" on 10.06.2013 (http://codeforces.ru/blog/entry/7919#comment-136245). <br/>
 			 */
-			public long search(long left, long right){
-				while (left<=right){
+			public long[] search(long left, long right){
+				while (right-left > 1){
 					long mid = (left+right)/2;
 					if (bc.check(mid)){
-						right = mid-1;
+						right = mid;
 					}else{
-						left = mid+1;
+						left = mid;
 					}
 				}
-				return left;
+				return new long[]{left,right};
 			}
 			
 			/**
-			 * Optional.<br>
-			 * Returns following element: <pre> 1 1 [1] 0 0</pre>
+			 * Optional. Returns the following 2 elements: <pre> 1 1 [1] [0] 0 0</pre>. </br>
+			 * 
+			 * @see BinarySearch#search(long, long) 
 			 */
-			public long searchInverted(long left, long right){
-				while (left<=right){
+			public long[] searchInverted(long left, long right){
+				while (right-left > 1){
 					long mid = (left+right)/2;
 					if (!bc.check(mid)){
-						right = mid-1;
+						right = mid;
 					}else{
-						left = mid+1;
+						left = mid;
 					}
 				}
-				return left - 1; 
+				return new long[]{left,right};
 			}
 		}
 	}
